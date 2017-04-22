@@ -12,6 +12,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="/js/leaflet.ajax.min.js"></script>
 
 
 	<style>
@@ -30,38 +31,26 @@
 </script>
 
 <script>
-	var geoJsonData = [];
-	$.getJSON( "maps/geojson", { size: {{ size }}, startDate: {{ startDate }} } )
-	.done(function( json ) {
-		geoJsonData = json;
+	// var geoJsonData = [];
+	// $.getJSON( "maps/geojson", { size: {{ size }}, startDate: {{ startDate }} } )
+	// .done(function( json ) {
+	// 	geoJsonData = json;
 
-		 L.geoJSON(geoJsonData, {
+	// 	 L.geoJSON(geoJsonData, {
 		 	
-			 onEachFeature: onEachFeature,
+	// 		 onEachFeature: onEachFeature,
 			
-			pointToLayer: function (feature, latlng) {
-		 		return L.circleMarker(latlng, geojsonMarkerOptions);
-		 	}
-		 }).addTo(map);
-	
-		// L.geoJSON(geoJsonData, {
+	// 		pointToLayer: function (feature, latlng) {
+	// 	 		return L.circleMarker(latlng, geojsonMarkerOptions);
+	// 	 	}
+	// 	 }).addTo(map);
 
-		// 	//style: function (feature) {
-		// 	//	return feature.properties;
-		// 	//},
 
-		// 	onEachFeature: onEachFeature,
-
-		// 	pointToLayer: function (feature, latlng) {
-		// 		L.circleMarker(latlng, geojsonMarkerOptions);
-		// 	}
-		// }).addTo(map);
-
-	})
-	.fail(function( jqxhr, textStatus, error ) {
-		var err = textStatus + ", " + error;
-		console.log( "Request Failed: " + err );
-	});
+	// })
+	// .fail(function( jqxhr, textStatus, error ) {
+	// 	var err = textStatus + ", " + error;
+	// 	console.log( "Request Failed: " + err );
+	// });
 
 	var map = L.map('map').setView([47.0644827,5.0378202], 5);
 
@@ -84,10 +73,6 @@
 		fillOpacity: 0.8
 	};
 
-	
-
-	
-
 	function onEachFeature(feature, layer) {
 		var popupContent = "";
 
@@ -99,33 +84,29 @@
 				}
 			};
 		}
-
 		layer.bindPopup(popupContent);
 	}
+    
+	var GeoJSONlayer = new L.GeoJSON.AJAX(
+		['maps/geojson?size={{ size }}&startDate={{ startDate }}&bbox=' 
+		+ map.getBounds().toBBoxString() + ''],{
+		
+		onEachFeature: onEachFeature,
 
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker(latlng, geojsonMarkerOptions);
+		}
+
+	}).addTo(map);
 	
+	function actualiseGeoJSON() {
+		// GeoJSONLayer refers to the variable declared
+		// when the layer initially got added
+		GeoJSONlayer.refresh(
+			['maps/geojson?size={{ size }}&startDate={{ startDate }}&bbox=' 
+		+ map.getBounds().toBBoxString() + '']);
+	}
 
-	// L.geoJSON(freeBus, {
-
-	// 	filter: function (feature, layer) {
-	// 		if (feature.properties) {
-	// 			// If the property "underConstruction" exists and is true, return false (don't render features under construction)
-	// 			return feature.properties.underConstruction !== undefined ? !feature.properties.underConstruction : true;
-	// 		}
-	// 		return false;
-	// 	},
-
-	// 	onEachFeature: onEachFeature
-	// }).addTo(map);
-
-	// var coorsLayer = L.geoJSON(coorsField, {
-
-	// 	pointToLayer: function (feature, latlng) {
-	// 		return L.marker(latlng, {icon: baseballIcon});
-	// 	},
-
-	// 	onEachFeature: onEachFeature
-	// }).addTo(map);
 
 </script>
 
