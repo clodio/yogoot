@@ -8,7 +8,21 @@ var client = new elasticsearch.Client({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('maps', { title: 'ElasticSearch :)', msg : 'An elasticsearch client using Express.js for Node' });
+  var size = req.query.size || 10;
+  var fields = req.query.fields || '';
+	var index = req.query.index || 'nouveauxvoisins';
+	var q = req.query.q || '*';
+	var startDate = req.query.startDate || Math.floor(Date.now() ) - 24*3600*1000*1000; //last 24h
+	var endDate = req.query.endDate || Math.floor(Date.now());  
+  res.render('maps', { 
+    title: 'Geolastic', 
+    size : size,
+    fields : fields,
+    index : index,
+    q : q,
+    startDate : startDate,
+    endDate : endDate
+  });
 });
 
 
@@ -18,7 +32,7 @@ router.get('/geojson', function(req, res, next) {
   var fields = req.query.fields || '';
 	var index = req.query.index || 'nouveauxvoisins';
 	var q = req.query.q || '*';
-	var startDate = req.query.startDate || Math.floor(Date.now() ) - 24*3600*1000; //last 24h
+	var startDate = req.query.startDate || Math.floor(Date.now() ) - 24*3600*1000*1000; //last 24h
 	var endDate = req.query.endDate || Math.floor(Date.now());
 
 	client.search({
@@ -48,8 +62,12 @@ router.get('/geojson', function(req, res, next) {
         }
     }, function (error, response) {
 
-			var geoJsons =[];
-			var geoJsonTemplate = {
+			var geoJsons_old ={
+        "type": "FeatureCollection",
+        "features": []
+      };
+      var geoJsons =[];
+      var geoJsonTemplate = {
 					"type": "Feature",
 					"geometry": {
 						"type": "Point"
@@ -81,7 +99,6 @@ router.get('/geojson', function(req, res, next) {
 				});
 			}
 		res.send(geoJsons);
-		//res.render('index', { title: 'Result : ', msg: JSON.stringify(geoJsons) });	
 	});
 });
 
