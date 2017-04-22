@@ -99,7 +99,7 @@
 
 	}).addTo(map);
 	
-	function actualiseGeoJSON() {
+	function refreshGeoJSON() {
 		// GeoJSONLayer refers to the variable declared
 		// when the layer initially got added
 		GeoJSONlayer.refresh(
@@ -107,6 +107,12 @@
 		+ map.getBounds().toBBoxString() + '']);
 	}
 
+	map.on('zoomend', function() {
+		refreshGeoJSON();
+	});
+	map.on('moveend', function() {
+		refreshGeoJSON();
+	});
 
 </script>
 
