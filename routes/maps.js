@@ -9,7 +9,7 @@ var client = new elasticsearch.Client({
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var size = req.query.size || 10;
-  var fields = req.query.fields || '';
+  var fields = req.query.fields || 'ALL';
 	var index = req.query.index || 'nouveauxvoisins';
 	var q = req.query.q || '*';
 	var startDate = req.query.startDate || Math.floor(Date.now() ) - 24*3600*1000*1000; //last 24h
@@ -31,10 +31,28 @@ router.get('/geojson', function(req, res, next) {
 	var size = req.query.size || 10;
   var fields = req.query.fields || '';
 	var index = req.query.index || 'nouveauxvoisins';
-	var q = req.query.q || '*';
-	var startDate = req.query.startDate || Math.floor(Date.now() ) - 24*3600*1000*1000; //last 24h
+	var startDate = req.query.startDate || Math.floor(Date.now() ) - 24*3600*1000*1000; //last 1000days
 	var endDate = req.query.endDate || Math.floor(Date.now());
-
+  var bbox = req.query.bbox || "-16.918945312500004,37.33522435930641,27.026367187500004,55.30413773740139";
+  var bboxArray = bbox.split(",");
+  var q = req.query.q || '*';
+  var filter={}
+  if (req.query.bbox) {
+    filter={
+        "geo_bounding_box" : {
+            "geolocation" : {
+                "top_left" : {
+                    "lat" : bboxArray[3],
+                    "lon" : bboxArray[0]
+                },
+                "bottom_right" : {
+                    "lat" : bboxArray[1],
+                    "lon" : bboxArray[2]
+                }
+            }
+        }
+    };
+  }
 	client.search({
         index: index,
         type: index,
@@ -47,7 +65,8 @@ router.get('/geojson', function(req, res, next) {
 										"query": q,
 										"analyze_wildcard": true
 									}
-								}, {
+								}, 
+                {
 									"range": {
 										"@timestamp": {
 											"gte": startDate,
@@ -56,6 +75,7 @@ router.get('/geojson', function(req, res, next) {
 										}
 									}
 								}],
+                "filter": filter,
 								"must_not": []
 							}
 						}
@@ -82,16 +102,24 @@ router.get('/geojson', function(req, res, next) {
             geoJson.geometry.coordinates= point["_source"].geolocation;
             geoJson.properties["_id"]=point["_id"];
             if (fields) {
-              // Add Fields filter
-              var queryFieldsTmp = fields.split(",");
-              for(var i in queryFieldsTmp) {
-                  geoJson.properties[queryFieldsTmp[i]]=point["_source"][queryFieldsTmp[i]] || null;
+              if (fields="ALL") {
+                for (var key in point["_source"]) {
+                  if (point["_source"].hasOwnProperty(key)) {
+                    geoJson.properties[key] = point["_source"][key];   
+                  }
+                }
+              }
+              else {              
+                // Add Fields filter
+                var queryFieldsTmp = fields.split(",");
+                for(var i in queryFieldsTmp) {
+                    geoJson.properties[queryFieldsTmp[i]]=point["_source"][queryFieldsTmp[i]] || null;
+                }
               }
             }
             else {
-              geoJson.properties["id_contract_individual"]=point["_source"].id_contract_individual;
-              geoJson.properties["id_contract_group"]=point["_source"].id_contract_group;
-              geoJson.properties["contract_order_nb"]=point["_source"].contract_order_nb;
+              geoJson.properties["@timestamp"]=point["_source"]["@timestamp"];
+              geoJson.properties["_id"]=point["_id"];
             }
             // TODO better : probleme de passage par reference de geoJson
             geoJsons.push(JSON.parse(JSON.stringify(geoJson)));

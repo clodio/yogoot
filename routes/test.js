@@ -2,120 +2,120 @@
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [7.769801, 48.569154]
+		"coordinates": [-61.108568, 14.864175]
 	},
 	"properties": {
-		"_id": "33922676501",
-		"id_contract_individual": "33922676502",
-		"id_contract_group": "339226765",
+		"_id": "33922769501",
+		"id_contract_individual": "33922769601",
+		"id_contract_group": "339227696",
+		"contract_order_nb": 1
+	}
+}, {
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [-60.917627, 14.590989]
+	},
+	"properties": {
+		"_id": "33923076401",
+		"id_contract_individual": "33923076501",
+		"id_contract_group": "339230765",
+		"contract_order_nb": 1
+	}
+}, {
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [-52.310124, 4.94132]
+	},
+	"properties": {
+		"_id": "43632772303",
+		"id_contract_individual": "43632772304",
+		"id_contract_group": "436327723",
+		"contract_order_nb": 4
+	}
+}, {
+	"type": "Feature",
+	"geometry": {
+		"type": "Point",
+		"coordinates": [-61.323677, 16.325801]
+	},
+	"properties": {
+		"_id": "33906388401",
+		"id_contract_individual": "33906388402",
+		"id_contract_group": "339063884",
 		"contract_order_nb": 2
 	}
 }, {
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [4.856372, 45.811601]
+		"coordinates": [-61.574662, 16.137072]
 	},
 	"properties": {
-		"_id": "33922678101",
-		"id_contract_individual": "33922680101",
-		"id_contract_group": "339226801",
+		"_id": "33923118601",
+		"id_contract_individual": "33923125601",
+		"id_contract_group": "339231256",
 		"contract_order_nb": 1
 	}
 }, {
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [3.548204, 47.798343]
+		"coordinates": [-61.574662, 16.137072]
 	},
 	"properties": {
-		"_id": "33922681301",
-		"id_contract_individual": "33922683501",
-		"id_contract_group": "339226835",
-		"contract_order_nb": 1
-	}
-}, {
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
-		"coordinates": [-1.017768, 46.19249]
-	},
-	"properties": {
-		"_id": "33922687401",
-		"id_contract_individual": "33922688001",
-		"id_contract_group": "339226880",
-		"contract_order_nb": 1
-	}
-}, {
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
-		"coordinates": [1.872344, 49.047045]
-	},
-	"properties": {
-		"_id": "33922689501",
-		"id_contract_individual": "33922690001",
-		"id_contract_group": "339226900",
-		"contract_order_nb": 1
-	}
-}, {
-	"type": "Feature",
-	"geometry": {
-		"type": "Point",
-		"coordinates": [1.872344, 49.047045]
-	},
-	"properties": {
-		"_id": "33922690001",
-		"id_contract_individual": "33922690002",
-		"id_contract_group": "339226900",
+		"_id": "33923125601",
+		"id_contract_individual": "33923125602",
+		"id_contract_group": "339231256",
 		"contract_order_nb": 2
 	}
 }, {
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [0.482015, 49.578212]
+		"coordinates": [-61.574662, 16.137072]
 	},
 	"properties": {
-		"_id": "33922690501",
-		"id_contract_individual": "33922690502",
-		"id_contract_group": "339226905",
-		"contract_order_nb": 2
+		"_id": "33923125602",
+		"id_contract_individual": "33923125603",
+		"id_contract_group": "339231256",
+		"contract_order_nb": 3
 	}
 }, {
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [5.808627, 43.127013]
+		"coordinates": [-60.904166, 14.614808]
 	},
 	"properties": {
-		"_id": "33922690502",
-		"id_contract_individual": "33922690601",
-		"id_contract_group": "339226906",
+		"_id": "33923836601",
+		"id_contract_individual": "33923837101",
+		"id_contract_group": "339238371",
 		"contract_order_nb": 1
 	}
 }, {
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [-1.833056, 47.036968]
+		"coordinates": [-61.059138, 14.605734]
 	},
 	"properties": {
-		"_id": "33922696301",
-		"id_contract_individual": "33922696401",
-		"id_contract_group": "339226964",
+		"_id": "33923851001",
+		"id_contract_individual": "33923851101",
+		"id_contract_group": "339238511",
 		"contract_order_nb": 1
 	}
 }, {
 	"type": "Feature",
 	"geometry": {
 		"type": "Point",
-		"coordinates": [4.968606, 45.559783]
+		"coordinates": [-61.711485, 16.000902]
 	},
 	"properties": {
-		"_id": "33922701102",
-		"id_contract_individual": "33922703001",
-		"id_contract_group": "339227030",
-		"contract_order_nb": 1
+		"_id": "33923980102",
+		"id_contract_individual": "33923980103",
+		"id_contract_group": "339239801",
+		"contract_order_nb": 3
 	}
 }]

@@ -13,14 +13,25 @@
 	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="/js/leaflet.ajax.min.js"></script>
+	<script src="/js/jquery.history.js"></script>
+	
+	<!-- Locate me button -->
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+	<script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
 
 
 	<style>
-		#map {
-			width: 1000px;
-			height: 600px;
-		}
-	</style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 
 	
 </head>
@@ -31,28 +42,43 @@
 </script>
 
 <script>
-	// var geoJsonData = [];
-	// $.getJSON( "maps/geojson", { size: {{ size }}, startDate: {{ startDate }} } )
-	// .done(function( json ) {
-	// 	geoJsonData = json;
 
-	// 	 L.geoJSON(geoJsonData, {
-		 	
-	// 		 onEachFeature: onEachFeature,
-			
-	// 		pointToLayer: function (feature, latlng) {
-	// 	 		return L.circleMarker(latlng, geojsonMarkerOptions);
-	// 	 	}
-	// 	 }).addTo(map);
+	var getUrlParameter = function getUrlParameter(name) {
+		// https://gist.github.com/MarkVaughn/2096943
+		return decodeURIComponent(
+			(RegExp('[?|&]'+name + '=' + '(.+?)(&|$)').exec(location.search)||["",""])[1]
+		);
+	};
+	var setURLParameter = function setURLParameter(name,value){
+		// https://gist.github.com/MarkVaughn/2096943
+		var search;
+		if(getUrlParameter(name)){
+			search =location.search.replace(new RegExp('([?|&]'+name + '=)' + '(.+?)(&|$)'),"$1"+encodeURIComponent(value)+"$3"); 
+		}else if(location.search.length){
+			search = location.search +'&'+name + '=' +encodeURIComponent(value);
+		}else{
+			search = '?'+name + '=' +encodeURIComponent(value);
+		}
+		History.pushState({state:History.getStateId()+1},document.title,search);
+	};
 
+	// set the map from url or default
+	var latCenter = "47.0644827";
+	var lonCenter = "5.0378202";
+	var zoomLevel = getUrlParameter("zoomLevel") || "5";
+	if ( getUrlParameter("bbox") !== "" ) {
+		var bbox= getUrlParameter("bbox").split(',');
+		if (bbox.length === 4) {
+			latCenter = ( Number(bbox[1]) + Number(bbox[3]) ) /2;
+			lonCenter = ( Number(bbox[0]) + Number(bbox[2]) ) /2;
+		}
+	}
+	// Set default map location
+	var map = L.map('map',{zoomControl: false}).setView([latCenter, lonCenter], zoomLevel);
+	// set bbox and zoomLevel in url
+	setURLParameter("bbox",map.getBounds().toBBoxString());
+	setURLParameter("zoomLevel",zoomLevel);
 
-	// })
-	// .fail(function( jqxhr, textStatus, error ) {
-	// 	var err = textStatus + ", " + error;
-	// 	console.log( "Request Failed: " + err );
-	// });
-
-	var map = L.map('map').setView([47.0644827,5.0378202], 5);
 
 	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -62,16 +88,26 @@
 		id: 'mapbox.light'
 
 	}).addTo(map);
+	// Add zoom control with your options
+	L.control.zoom({
+		position:'bottomright'
+	}).addTo(map);
 
+	// Add locate me button
+	L.control.locate({
+		position:'bottomright'
+	}).addTo(map);
 
 	var geojsonMarkerOptions = {
-		radius: 8,
+		radius: 2,
 		fillColor: "#ff7800",
 		color: "#ff7800",
 		weight: 1,
 		opacity: 1,
 		fillOpacity: 0.8
 	};
+
+	
 
 	function onEachFeature(feature, layer) {
 		var popupContent = "";
@@ -80,7 +116,6 @@
 			for (var key in feature.properties) {
 				if (feature.properties.hasOwnProperty(key)) {
 					popupContent += "<div>" + key + ": <strong>" + feature.properties[key] + "</strong></div>";
-					
 				}
 			};
 		}
@@ -88,31 +123,33 @@
 	}
     
 	var GeoJSONlayer = new L.GeoJSON.AJAX(
-		['maps/geojson?size={{ size }}&startDate={{ startDate }}&bbox=' 
-		+ map.getBounds().toBBoxString() + ''],{
-		
+		['maps/geojson?size='+ getUrlParameter('size')+ '&q='+ getUrlParameter('q') + '&fields='+ getUrlParameter('fields')+ '&startDate='+ getUrlParameter('startDate')+ '&endDate='+ getUrlParameter('endDate')+ '&index='+ getUrlParameter('index')+ '&bbox=' + getUrlParameter('bbox') + ''],{
 		onEachFeature: onEachFeature,
-
 		pointToLayer: function (feature, latlng) {
 			return L.circleMarker(latlng, geojsonMarkerOptions);
 		}
-
 	}).addTo(map);
 	
+
 	function refreshGeoJSON() {
 		// GeoJSONLayer refers to the variable declared
 		// when the layer initially got added
 		GeoJSONlayer.refresh(
-			['maps/geojson?size={{ size }}&startDate={{ startDate }}&bbox=' 
-		+ map.getBounds().toBBoxString() + '']);
+		['maps/geojson?size='+ getUrlParameter('size')+ '&q='+ getUrlParameter('q') + '&fields='+ getUrlParameter('fields')+ '&startDate='+ getUrlParameter('startDate')+ '&endDate='+ getUrlParameter('endDate')+ '&index='+ getUrlParameter('index')+ '&bbox=' + getUrlParameter('bbox') + '']);
 	}
 
 	map.on('zoomend', function() {
+		setURLParameter("bbox",map.getBounds().toBBoxString());
+		setURLParameter("zoomLevel",map.getZoom());
 		refreshGeoJSON();
 	});
 	map.on('moveend', function() {
+		setURLParameter("bbox",map.getBounds().toBBoxString());
 		refreshGeoJSON();
 	});
+
+
+	
 
 </script>
 
