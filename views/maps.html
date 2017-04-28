@@ -13,12 +13,19 @@
 	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="/js/leaflet.ajax.min.js"></script>
+
+	<!-- History url -->
 	<script src="/js/jquery.history.js"></script>
 	
 	<!-- Locate me button -->
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
 	<script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
+	<!-- Searchbox https://github.com/clodio/leaflet-custom-searchbox -->
+	<script src="/js/leaflet.customsearchbox.min.js"></script>
+	<link rel="stylesheet" href="/stylesheets/searchbox.min.css" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 
@@ -110,20 +117,27 @@
 	
 
 	function onEachFeature(feature, layer) {
-		var popupContent = "";
-
+		// var popupContent = '<div id="js-datasets-list--wrap" class="datasets-list--wrap" style="height: 207px;"><div id="js-datasets-list" class="datasets-list"><div class="datasets-item"><ul class="datasets-item--list">';
+        var popupContent = '';
 		if ( feature.properties ) {
 			for (var key in feature.properties) {
 				if (feature.properties.hasOwnProperty(key)) {
-					popupContent += "<div>" + key + ": <strong>" + feature.properties[key] + "</strong></div>";
+					 popupContent += "<div>" + key + ": <strong>" + feature.properties[key] + "</strong></div>";
+					//popupContent += '<li class="js-datasets-item multi-select-false"><span class="js-d-item-name">' + key + ": <strong>" + feature.properties[key] + "</strong></span></li>";
 				}
 			};
 		}
-		layer.bindPopup(popupContent);
+		// popupContent += '</ul></div></div></div>';
+
+		layer.bindPopup(popupContent, {closeButton: false});
+		//, offset: L.point(0, -20)
+		layer.on('mouseover', function() { layer.openPopup(); });
+		layer.on('mouseout', function() { layer.closePopup(); });
+
 	}
     
 	var GeoJSONlayer = new L.GeoJSON.AJAX(
-		['maps/geojson?size='+ getUrlParameter('size')+ '&q='+ getUrlParameter('q') + '&fields='+ getUrlParameter('fields')+ '&startDate='+ getUrlParameter('startDate')+ '&endDate='+ getUrlParameter('endDate')+ '&index='+ getUrlParameter('index')+ '&bbox=' + getUrlParameter('bbox') + ''],{
+		['geojson?size='+ getUrlParameter('size')+ '&q='+ getUrlParameter('q') + '&fields='+ getUrlParameter('fields')+ '&startDate='+ getUrlParameter('startDate')+ '&endDate='+ getUrlParameter('endDate')+ '&index='+ getUrlParameter('index')+ '&bbox=' + getUrlParameter('bbox') + ''],{
 		onEachFeature: onEachFeature,
 		pointToLayer: function (feature, latlng) {
 			return L.circleMarker(latlng, geojsonMarkerOptions);
@@ -135,7 +149,7 @@
 		// GeoJSONLayer refers to the variable declared
 		// when the layer initially got added
 		GeoJSONlayer.refresh(
-		['maps/geojson?size='+ getUrlParameter('size')+ '&q='+ getUrlParameter('q') + '&fields='+ getUrlParameter('fields')+ '&startDate='+ getUrlParameter('startDate')+ '&endDate='+ getUrlParameter('endDate')+ '&index='+ getUrlParameter('index')+ '&bbox=' + getUrlParameter('bbox') + '']);
+		['geojson?size='+ getUrlParameter('size')+ '&q='+ getUrlParameter('q') + '&fields='+ getUrlParameter('fields')+ '&startDate='+ getUrlParameter('startDate')+ '&endDate='+ getUrlParameter('endDate')+ '&index='+ getUrlParameter('index')+ '&bbox=' + getUrlParameter('bbox') + '']);
 	}
 
 	map.on('zoomend', function() {
@@ -149,7 +163,48 @@
 	});
 
 
+	// Add search box
+	var searchboxControl=createSearchboxControl();
+	var control = new searchboxControl({
+		sidebarTitleText: 'Header',
+		sidebarMenuItems: {
+			Items: [
+				{ type: "link", name: "Link 1 (github.com)", href: "http://github.com", icon: "icon-local-carwash" },
+				{ type: "link", name: "Link 2 (google.com)", href: "http://google.com", icon: "icon-cloudy" },
+				{ type: "button", name: "Button 1", onclick: "alert('button 1 clicked !')", icon: "icon-potrait" },
+				{ type: "button", name: "Button 2", onclick: "button2_click();", icon: "icon-local-dining" },
+				{ type: "link", name: "Link 3 (stackoverflow.com)", href: 'http://stackoverflow.com', icon: "icon-bike" },
+			]
+		}
+	});
+	$("#searchboxinput").val(getUrlParameter("q"));
+	control._searchfunctionCallBack = function (searchkeywords)
+	{
+		setURLParameter("q",searchkeywords);
+		refreshGeoJSON();
+	}
+	$(document).keypress(function(e) {
+		setURLParameter("q",$("#searchboxinput").val());
+		if(e.which == 13) {
+			// setURLParameter("q",$("#searchboxinput").val());
+			refreshGeoJSON();
+		}
+		refreshSearch();
+	});
+	map.addControl(control);
+
+	function refreshSearch() {
+		$.ajax({
+			url: '/search?' + '&q='+ getUrlParameter('q') + ''
+		}).success(function( data ) {
+			console.log(JSON.stringify(data))
+			$( "#test" ).val(JSON.stringify(data));
+			$("#controlbox-result").html(control._getHtmlContentDetail(data));
+		});
+		
+	}
 	
+
 
 </script>
 

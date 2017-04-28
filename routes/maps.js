@@ -6,6 +6,8 @@ var client = new elasticsearch.Client({
 	log: 'error'
 });
 
+ 
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   var size = req.query.size || 10;
@@ -35,7 +37,7 @@ router.get('/geojson', function(req, res, next) {
 	var endDate = req.query.endDate || Math.floor(Date.now());
   var bbox = req.query.bbox || "-16.918945312500004,37.33522435930641,27.026367187500004,55.30413773740139";
   var bboxArray = bbox.split(",");
-  var q = req.query.q || '*';
+  var q = req.query.q + '*' || '*';
   var filter={}
   if (req.query.bbox) {
     filter={
@@ -96,7 +98,7 @@ router.get('/geojson', function(req, res, next) {
 				}
 
 			var geoJson = {};
-			if (response.hits) {
+			if (response && response.hits) {
 				  response.hits.hits.forEach(function(point) {
             geoJson = geoJsonTemplate;
             geoJson.geometry.coordinates= point["_source"].geolocation;
@@ -105,6 +107,7 @@ router.get('/geojson', function(req, res, next) {
               if (fields="ALL") {
                 for (var key in point["_source"]) {
                   if (point["_source"].hasOwnProperty(key)) {
+                    // geoJson.properties[key] = removeDiacritics(point["_source"][key]);  
                     geoJson.properties[key] = point["_source"][key];   
                   }
                 }

@@ -1,0 +1,194 @@
+<html>
+<head>
+    <link href="./stylesheets/searchbox.min.css" rel="stylesheet" />
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+	<div id="controlbox" >
+		<div id="boxcontainer" class="searchbox searchbox-shadow" >
+				<div class="searchbox-menu-container">
+				<button aria-label="Menu" id="searchbox-menubutton" class="searchbox-menubutton"><i class="fa fa-bars" aria-hidden="true"></i></button> 
+				
+				<span aria-hidden="true"  style="display:none">Menu</span> </div>				
+			<div>
+				<input id="searchboxinput" type="text" style="position: relative;" />
+			</div>
+			<div class="searchbox-searchbutton-container">
+					<button aria-label="search"  id="searchbox-searchbutton"  class="searchbox-searchbutton">
+					<i class="fa fa-search" aria-hidden="true"></i>
+					</button>
+					<span aria-hidden="true"  style="display:none;">search</span>
+			</div>
+		</div>	 
+	</div>	
+	<div id="controlbox-result">
+		<div>
+			<ul>
+				<li class="resultbox resultbox-shadow">
+					<div class="resultbox-li">
+						<button aria-label="Menu" class="resultbox-menubutton">
+							<i class="fa fa-map-marker" aria-hidden="true"></i></button> 
+						<span aria-hidden="true"  style="display:none">Location</span> </div>				
+					<div>
+						test
+					</div>
+					<div class="resultbox-deletebutton-container">
+							<button aria-label="remove"  class="resultbox-deletebutton">
+							<i class="fa fa-times" aria-hidden="true"></i>
+							</button>
+							<span aria-hidden="true"  style="display:none;"></span>
+					</div>
+				</li>
+
+
+				<li class="resultbox resultbox-shadow">
+						<button aria-label="Menu" class="resultbox-menubutton">
+							<i class="fa fa-map-marker" aria-hidden="true"></i></button>
+							<span aria-hidden="true" style="display:none">Location</span>
+					 <div>75015 PARIS</div>	<div class="resultbox-deletebutton-container">		
+						 	<button aria-label="remove" class="resultbox-deletebutton">	
+								 		<i class="fa fa-times" aria-hidden="true"></i>		
+										 	</button>		
+						<span aria-hidden="true" style="display:none;"></span>	</div></li>
+
+
+
+				<li class="resultbox resultbox-shadow">
+					<div class="resultbox-li">
+						<button aria-label="Menu" class="resultbox-menubutton"><i class="fa fa-map-marker" aria-hidden="true"></i></button> 
+						<span aria-hidden="true"  style="display:none">Location</span> </div>				
+					<div>
+						test2
+					</div>
+					<div class="resultbox-deletebutton-container">
+							<button aria-label="remove"  class="resultbox-deletebutton">
+							<i class="fa fa-times" aria-hidden="true"></i>
+							</button>
+							<span aria-hidden="true"  style="display:none;"></span>
+					</div>
+				</li>
+				<li class="resultbox resultbox-shadow">
+					<div class="resultbox-li">
+						<button aria-label="Menu" class="resultbox-menubutton"><i class="fa fa-map-marker" aria-hidden="true"></i></button> 
+						<span aria-hidden="true"  style="display:none">Location</span> </div>				
+					<div>
+						test
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div> 
+    <div class="panel">
+        <div class="panel-header">
+            <div class="panel-header-container">
+                <span class="panel-header-title"></span>
+                <button aria-label="Menu" id="panelbutton" class="panel-close-button"></button>
+            </div>
+        </div>
+        <div class="panel-content">
+
+            </div>
+    </div>
+    
+<div id="js-container-datasets" class="datasets-container"><div class="cat-population">
+  <div class="datasets-list--top">
+    <span class="button-lock">
+      <span id="js-datasets-lock" class="svg-icon">
+        <svg class="icon-lock"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-lock"></use></svg>
+      </span>
+      <span class="tooltip">Bloquer la disparition du menu</span>
+    </span>
+    <span id="js-datasets-collapse" class="button-collapse">
+      <span class="svg-icon">
+        <svg class="icon-arrow-sans-left"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-arrow-sans-left"></use></svg>
+      </span>
+    </span>
+    <span class="js-category-current category-current-name">Politique</span>
+  </div>
+  <div id="js-datasets-list--wrap" class="datasets-list--wrap" style="height: 207px;">
+    <div id="js-datasets-list" class="datasets-list"><div class="datasets-item">
+  <span class="datasets-item--name">Présidentielles 2012</span>
+  <ul class="datasets-item--list">
+      <li class="js-datasets-item multi-select-false" data-id="premier-tour-tete" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Candidat en tête au 1er tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Candidat en tête au 1er tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="premier-tour-part" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 1er tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 1er tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="second-tour-tete" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Candidat en tête au 2nd tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Candidat en tête au 2nd tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="second-tour-part" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 2nd tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 2nd tour</span>
+      </li>
+  </ul>
+</div><div class="datasets-item">
+  <span class="datasets-item--name">Européennes 2014</span>
+  <ul class="datasets-item--list">
+      <li class="js-datasets-item multi-select-false" data-id="part-des-voix" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Part des voix</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Part des voix</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="liste-en-tete" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête</span>
+      </li>
+  </ul>
+</div><div class="datasets-item">
+  <span class="datasets-item--name">Départementales 2015</span>
+  <ul class="datasets-item--list">
+      <li class="js-datasets-item multi-select-false" data-id="liste-en-tete-dep-t1" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête au 1er tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête au 1er tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="part-des-voix-dep-t1" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 1er tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 1er tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="liste-en-tete-dep-t2" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête au 2nd tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête au 2nd tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="part-des-voix-dep-t2" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 2nd tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 2nd tour</span>
+      </li>
+  </ul>
+</div><div class="datasets-item">
+  <span class="datasets-item--name">Régionales 2015</span>
+  <ul class="datasets-item--list">
+      <li class="js-datasets-item multi-select-false" data-id="liste-en-tete-reg-2015-t1" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête au 1er tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête au 1er tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="part-des-voix-reg-2015-t1" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 1er tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 1er tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="liste-en-tete-reg-2015-t2" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête au 2nd tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Liste arrivée en tête au 2nd tour</span>
+      </li>
+      <li class="js-datasets-item multi-select-false" data-id="part-des-voix-reg-2015-t2" data-type="shape" data-multiple="false">
+        <!-- <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 2nd tour</span> -->
+        <label class="ui-radio"></label><span class="js-d-item-name">Part des voix au 2nd tour</span>
+      </li>
+  </ul>
+</div></div>
+  </div>
+  <div class="datasets-more" id="js-datasets-more">
+    <p>Retrouvez plus de données sur nos fiches commune et adresse</p>
+    <a target="_blank" href="http://datafrance.info/recherche">Plus de données →</a>
+  </div>
+</div></div>
+
+
+ </body>
+</html>
